@@ -1,0 +1,12 @@
+;IdColumnIndex=0
+15034:0=15034,1=15006,2=5,4=10,9="Reach level 10 in Hardcore mode",25=16712190,26=2,30=1
+15035:0=15035,1=15007,2=5,4=20,9="Reach level 20 in Hardcore mode",25=16712190,26=2,30=1
+15036:0=15036,1=15008,2=5,4=30,9="Reach level 30 in Hardcore mode",25=16712190,26=2,30=1
+15037:0=15037,1=15009,2=5,4=40,9="Reach level 40 in Hardcore mode",25=16712190,26=2,30=1
+15038:0=15038,1=15010,2=5,4=50,9="Reach level 50 in Hardcore mode",25=16712190,26=2,30=1
+15039:0=15039,1=15011,2=5,4=60,9="Reach level 60 in Hardcore mode",25=16712190,26=2,30=1
+15040:0=15040,1=15012,2=5,4=70,9="Reach level 70 in Hardcore mode",25=16712190,26=2,30=1
+15041:0=15041,1=15013,2=5,4=80,9="Reach level 80 in Hardcore mode",25=16712190,26=2,30=1
+15050:0=15050,1=15050,2=5,4=60,9="Reach max level in Classic Hardcore",25=16712190,26=1,30=1
+15051:0=15051,1=15051,2=5,4=70,9="Reach max level in TBC Hardcore",25=16712190,26=1,30=1
+15052:0=15052,1=15052,2=5,4=80,9="Reach max level in Wrath Hardcore",25=16712190,26=1,30=1

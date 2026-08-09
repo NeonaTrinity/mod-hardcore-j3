@@ -1,0 +1,105 @@
+#
+# Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU AGPL v3 license: https://github.com/azerothcore/azerothcore-wotlk/blob/master/LICENSE-AGPL3
+#
+
+[worldserver]
+
+########################################
+# Mod Hardcore Configuration
+########################################
+#
+#	 ModHardcore.Enable
+#        Description: Enable Hardcore Mod.
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+#	 ModHardcore.TokenItemId
+#        Description: Item ID of the hardcore token item. This is an unused NPC item. It is used to track hardcore players.
+#                     You may need to change this if it conflicts with other customizations
+#        Example:     ModHardcore.TokenItemId = 11100
+#        Default:     11100
+#
+#	 ModHardcore.AllowHardcorePlayerBots
+#        Description: Allow Hardcore Player Bots. Not recommended. They die easily and deleting them is experimental right now.
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+#    ModHardcore.AllowPlayerRez
+#        Description: Allow another player to resurrect dead hardcore player.
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+#    ModHardcore.AllowSpiritRez
+#        Description: Allow Spirit Healer at Graveyard to resurrect.
+#        Default:      - Disabled
+#                     1 - Enabled
+#
+#	 ModHardcore.AllowGMRez
+#        Description:	Enable GM resurrection.
+#        Default:     	0 - Disabled    
+#                     	1 - Enabled#
+#
+#    ModHardcore.MakeUndeadOnRez
+#        Description: Make player undead on resurrection. Change player racials to mostly undead racials
+#        Default:     1 - Enabled
+#                     0 - Disabled
+#
+#    ModHardcore.MakeUndeadOnGMRez
+#        Description: Make player undead on GM resurrection.
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+#    ModHardcore.DestroyEquipmentOnDeath
+#        Description: Destroy worn equipment and money on death.
+#        Default:     1 - Enabled
+#                     0 - Disabled
+#
+#    ModHardcore.DisableChatWhenDead
+#        Description: Disable chat when player is dead.
+#        Default:     0 - Disabled (Allows chat)
+#                     1 - Enabled
+#
+#	 ModHardcore.StartLevel
+#	 ModHardcore.EndLevel
+#        Description:	Disable Hardcore Level at Min-Max range.
+#        Default:		ModHardcore.StartLevel = 2
+#						ModHardcore.EndLevel = 79
+#        Examples:		Set a range of level 10 to 79 to enable hardcore, so at level 1-9 and 80 hardcore is disabled.
+#						Set a range of level 1 to 80 to enable hardcore all levels.
+#
+#    ModHardcore.AchievementReward
+#        Description: Achievement Id for the Hardcore Title as max level. Comma separate pairs of (level, achievement Id)
+#        Default:     "60 15050, 70 15051, 80 15052"
+#
+#    ModHardcore.TitleReward
+#        Description: Title Id for the Hardcore Title as max level. Comma separate pairs of (level, title Id)
+#        Default:     "60 178, 70 179, 80 180"
+#
+#
+#    ModHardcore.AnnounceLevelUp
+#        Description: Announce level up
+#        Default:     1 - Enabled
+#                     0 - Disabled
+#
+#
+ModHardcore.Enable = true
+ModHardcore.TokenItemId = 11100
+
+ModHardcore.AllowHardcorePlayerBots = false
+ModHardcore.AllowPlayerRez = false
+ModHardcore.AllowSpiritRez = true
+ModHardcore.AllowGMRez = true
+
+ModHardcore.MakeUndeadOnRez = false
+ModHardcore.MakeUndeadOnGMRez = false
+
+ModHardcore.DestroyEquipmentOnDeath = true
+ModHardcore.DisableChatWhenDead = false
+
+ModHardcore.StartLevel = 1
+ModHardcore.EndLevel = 59
+
+ModHardcore.AnnounceLevelUp = true
+
+ModHardcore.AchievementReward = "60 2186, 70 2187"
+ModHardcore.TitleReward = "60 141, 70 142"
