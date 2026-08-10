@@ -123,7 +123,7 @@ ModHardcore.FallenHCUndeadRacialSpell2 = 5227
 # Set either spell slot to 0 or -1 for no spell.
 # Default spell 8359 = Left for Dead. A long cooldown override is recommended
 # if this spell is used on a live realm.
-ModHardcore.GiveNativeUndeadFallenRacials = true
+ModHardcore.GiveNativeUndeadFallenRacials = false
 ModHardcore.FallenUndeadBonusSpell1 = 8359
 ModHardcore.FallenUndeadBonusSpell2 = 0
 
