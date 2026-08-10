@@ -334,8 +334,9 @@ The original world-database token item SQL remains part of the base module and m
 
 ## Credits
 
-- Zindokar - original `mod-hardcore` creator
-- ZhengPeiRu21 - `mod-challenge-modes`
-- DML fork - token opt-out, death filtering/announcements, resurrection redesign, Mak'gora, memorial flow, and validated Death Knight-style fallen appearance
+- peppernz - Mod fork HC token code, and inspiration - https://github.com/peppernz/mod-hardcore
+- Zindokar - original `mod-hardcore` creator https://github.com/zindokar
+- ZhengPeiRu21 - `mod-challenge-modes` https://github.com/ZhengPeiRu21
+- J3 fork - token opt-out, death filtering/announcements, resurrection redesign, Mak'gora, memorial flow, and validated Death Knight-style fallen appearance
 
 `.hcdk sync` is an observer-side diagnostic. Run it from the observing GM while targeting the fallen character. It prints whether the observer is real, both players are in-world/on the same map, `HaveAtClient()` is true, the target matches a valid fallen DK appearance, and which alternate DK skin/hair values would be used. If all gates pass it sends the exact same two-packet observer-only appearance pulse used by the automatic DK skin synchronizer.
