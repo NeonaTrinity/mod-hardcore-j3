@@ -12,6 +12,10 @@ If a character has the configured Hardcore Token and is inside the configured Ha
 
 Ignored PvP, battleground, and arena deaths can use `ModHardcore.PvPDeathFlagItemId` as a temporary persistent keyring marker so the exclusion survives logout and server restart.
 
+known issues:
+occasionally a fallen players first resurrection after dying in HC will cause the player to appear with regular skin texture faces and fallen bodies. 
+logging out and back in fixes it. The visual bug only appears for the client, other players see the fallen player as skinned correctly.
+
 
 <img src="images/fallen_orcs.jpg" width = "600"> 
 Fallen hair styles can be changed at the barber like normal, but you will lose access to your fallen hair color if you change away from it.
