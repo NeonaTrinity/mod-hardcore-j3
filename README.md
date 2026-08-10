@@ -3,6 +3,8 @@
 AzerothCore 3.3.5a J3's Hardcore module with an opt-out Hardcore mechanic. Fallen Hardcore players may return to non-Hardcore as "Fallen Undead" versions of their race. Players retain their level, class, skills, and progression.
 This module requires no AzerothCore core patches and no client patches. Add the project to your `modules` folder, rebuild, configure the module, and run the included SQL.
 
+module created by: J3 https://github.com/NeonaTrinity/mod-hardcore-j3
+
 **known issues:**
 occasionally a fallen players first resurrection after dying in HC will cause the player to appear with regular skin texture faces and fallen bodies. 
 logging out and back in fixes it. The visual bug only appears for the client, other players see the fallen player as skinned correctly.
