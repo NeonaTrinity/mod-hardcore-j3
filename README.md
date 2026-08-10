@@ -1,10 +1,16 @@
-# Mod Hardcore - Streamlined DML Fork
+# Mod J3's Hardcore
 
-AzerothCore 3.3.5a Hardcore module built around a simple rule: **the Hardcore Key is the sole authority for Hardcore participation**.
+AzerothCore 3.3.5a J3's Hardcore module with an opt-out Hardcore mechanic. Fallen Hardcore players may return to non-Hardcore as "Fallen Undead" versions of their race. Players retain their level, class, skills, and progression.
 
-There is no leaderboard database and no custom character-state table. If a character has the configured Key and is inside the Hardcore level range, Hardcore rules apply. Destroying the Key manually opts out immediately.
+This module requires no AzerothCore core patches and no client patches. Add the project to your `modules` folder, rebuild, configure the module, and run the included SQL.
 
-Ignored PvP/BG/arena deaths can use `ModHardcore.PvPDeathFlagItemId` as a temporary persistent keyring marker so the exclusion survives logout/server restart without adding a custom table.
+The included SQL repurposes two unused NPC items as the default Hardcore Token and PvP Death Flag Token. The Hardcore Token determines whether a character is participating in Hardcore mode. The PvP Death Flag prevents Hardcore resurrection penalties for ignored PvP deaths when enabled.
+
+If enabled, Fallen Hardcore players can have their equipped items destroyed on death and return as "Fallen" versions of their existing characters using Death Knight skin data to create corpse-like undead appearances for each race without client patching.
+
+If a character has the configured Hardcore Token and is inside the configured Hardcore level range, Hardcore rules apply. Destroying the token manually opts the character out immediately.
+
+Ignored PvP, battleground, and arena deaths can use `ModHardcore.PvPDeathFlagItemId` as a temporary persistent keyring marker so the exclusion survives logout and server restart.
 
 ## Core death / resurrection flow
 
