@@ -1,105 +1,358 @@
 #
-# Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU AGPL v3 license: https://github.com/azerothcore/azerothcore-wotlk/blob/master/LICENSE-AGPL3
+# Copyright (C) 2016+ AzerothCore <www.azerothcore.org>, released under GNU AGPL v3 license
 #
 
 [worldserver]
 
-########################################
-# Mod Hardcore Configuration
-########################################
-#
-#	 ModHardcore.Enable
-#        Description: Enable Hardcore Mod.
-#        Default:     0 - Disabled
-#                     1 - Enabled
-#
-#	 ModHardcore.TokenItemId
-#        Description: Item ID of the hardcore token item. This is an unused NPC item. It is used to track hardcore players.
-#                     You may need to change this if it conflicts with other customizations
-#        Example:     ModHardcore.TokenItemId = 11100
-#        Default:     11100
-#
-#	 ModHardcore.AllowHardcorePlayerBots
-#        Description: Allow Hardcore Player Bots. Not recommended. They die easily and deleting them is experimental right now.
-#        Default:     0 - Disabled
-#                     1 - Enabled
-#
-#    ModHardcore.AllowPlayerRez
-#        Description: Allow another player to resurrect dead hardcore player.
-#        Default:     0 - Disabled
-#                     1 - Enabled
-#
-#    ModHardcore.AllowSpiritRez
-#        Description: Allow Spirit Healer at Graveyard to resurrect.
-#        Default:      - Disabled
-#                     1 - Enabled
-#
-#	 ModHardcore.AllowGMRez
-#        Description:	Enable GM resurrection.
-#        Default:     	0 - Disabled    
-#                     	1 - Enabled#
-#
-#    ModHardcore.MakeUndeadOnRez
-#        Description: Make player undead on resurrection. Change player racials to mostly undead racials
-#        Default:     1 - Enabled
-#                     0 - Disabled
-#
-#    ModHardcore.MakeUndeadOnGMRez
-#        Description: Make player undead on GM resurrection.
-#        Default:     0 - Disabled
-#                     1 - Enabled
-#
-#    ModHardcore.DestroyEquipmentOnDeath
-#        Description: Destroy worn equipment and money on death.
-#        Default:     1 - Enabled
-#                     0 - Disabled
-#
-#    ModHardcore.DisableChatWhenDead
-#        Description: Disable chat when player is dead.
-#        Default:     0 - Disabled (Allows chat)
-#                     1 - Enabled
-#
-#	 ModHardcore.StartLevel
-#	 ModHardcore.EndLevel
-#        Description:	Disable Hardcore Level at Min-Max range.
-#        Default:		ModHardcore.StartLevel = 2
-#						ModHardcore.EndLevel = 79
-#        Examples:		Set a range of level 10 to 79 to enable hardcore, so at level 1-9 and 80 hardcore is disabled.
-#						Set a range of level 1 to 80 to enable hardcore all levels.
-#
-#    ModHardcore.AchievementReward
-#        Description: Achievement Id for the Hardcore Title as max level. Comma separate pairs of (level, achievement Id)
-#        Default:     "60 15050, 70 15051, 80 15052"
-#
-#    ModHardcore.TitleReward
-#        Description: Title Id for the Hardcore Title as max level. Comma separate pairs of (level, title Id)
-#        Default:     "60 178, 70 179, 80 180"
-#
-#
-#    ModHardcore.AnnounceLevelUp
-#        Description: Announce level up
-#        Default:     1 - Enabled
-#                     0 - Disabled
-#
-#
+###############################################################################
+# MOD HARDCORE
+###############################################################################
+
+# Master Hardcore switch.
 ModHardcore.Enable = true
+
+# Item used as the Hardcore Key. The Key is the sole authority for Hardcore.
+# New non-GM characters receive one on first login.
+# Destroying it manually opts the character out immediately.
 ModHardcore.TokenItemId = 11100
 
+# Persistent marker for an ignored Hardcore PvP death.
+#
+# This item is granted ONLY to a character that currently has the Hardcore Key
+# when the death belongs to a PvP category configured NOT to count:
+#
+#   ModHardcore.CountPvPDeaths = false
+#   ModHardcore.CountBattlegroundDeaths = false
+#   ModHardcore.CountArenaDeaths = false
+#
+# The flag survives logout and server restart so an ignored PvP death cannot
+# later be mistaken for a qualifying Hardcore death during resurrection.
+#
+# When the character successfully resurrects, all copies of this item are
+# destroyed. A flagged resurrection bypasses normal Hardcore forfeiture/fallen
+# resurrection processing and preserves the Hardcore Key.
+#
+# 
+# 
+ModHardcore.PvPDeathFlagItemId = 759
+
+# Playerbots are excluded by default.
 ModHardcore.AllowHardcorePlayerBots = false
-ModHardcore.AllowPlayerRez = false
+
+###############################################################################
+# RESURRECTION / HARDCORE FORFEIT
+###############################################################################
+
+# Allow another player to resurrect a dead Hardcore character.
+ModHardcore.AllowPlayerRez = true
+
+# Allow a Spirit Healer to resurrect a dead Hardcore character.
 ModHardcore.AllowSpiritRez = true
+
+# Allow GM/direct resurrection of a dead Hardcore character.
 ModHardcore.AllowGMRez = true
 
-ModHardcore.MakeUndeadOnRez = false
-ModHardcore.MakeUndeadOnGMRez = false
+# A qualifying death does NOT remove the Hardcore Key.
+# If the character remains dead, the Key remains and Hardcore remains active.
+# When an allowed resurrection succeeds, the optional fallen effects below are
+# applied, the Key is destroyed, and the character permanently leaves Hardcore.
 
+###############################################################################
+# FALLEN DK SKIN SYNCHRONIZATION
+###############################################################################
+
+# Keeps Death Knight-style fallen skin/face textures synchronized for OTHER
+# real player clients after login and full map/world loads.
+#
+# This is normally used with ModHardcore.MakeUndeadOnRez, but is intentionally
+# independent so existing fallen characters continue displaying correctly even
+# if new resurrection transformations are later disabled.
+#
+# Playerbots never act as observers for this synchronization.
+# This switch controls the older timer-based fallback system only: login,
+# zone/area observer scans, and the delayed fallen-subject map-entry repair.
+ModHardcore.EnableDkSkinSync = true
+
+# Observer-side DK skin sync timing in milliseconds.
+# Zone/area changes use an early pulse followed by a retry/fallback pulse.
+# Login uses its own early + retry pair. These can be tuned without rebuilding.
+ModHardcore.ZoneSyncTime = 250
+ModHardcore.ZoneSyncTimeRetry = 750
+ModHardcore.LogonSyncTime = 250
+ModHardcore.LogonSyncTimeRetry = 1500
+
+# Event-driven object-create synchronization.
+# Independent from EnableDkSkinSync so the newer visibility-time system can be
+# tested by itself without removing the older timer fallback code.
+# When enabled, AzerothCore's existing UnitScript values-update hooks patch the
+# outgoing create packet when a fallen player first becomes visible to a real
+# observer, then schedule one pair-specific repair after ObjectCreateSyncTime.
+# This does not continuously scan nearby players and requires no core patch.
+ModHardcore.EnableDkSkinObjectCreateSync = true
+ModHardcore.ObjectCreateSyncTime = 100
+
+###############################################################################
+# FALLEN APPEARANCE / RACIAL REWARDS
+###############################################################################
+
+# NEW behavior for the original MakeUndeadOnRez option:
+# true = when an allowed PLAYER or SPIRIT resurrection is accepted, stage a
+# validated race/gender-specific Death Knight appearance before AzerothCore
+# performs the resurrection. This does NOT change race, class, faction,
+# equipment, power type, or original racial spells.
+# Native Undead/Forsaken and Death Knights are never auto-changed visually.
+ModHardcore.MakeUndeadOnRez = true
+
+# Optional Death Knight hair customization for the fallen appearance.
+# true  = preserve the current hairStyle + hairColor if it is already DK-valid;
+#         otherwise choose a valid DK hair pair. Valid facialHair is preserved.
+# false = preserve the player's existing hairStyle, hairColor, and facialHair.
+ModHardcore.UseDeathKnightHair = true
+
+# Also applied only after a successful allowed resurrection.
+# Non-native Undead/Forsaken characters can receive up to two configurable
+# fallen racial spells. Set either spell slot to 0 or -1 for no spell.
+# Defaults preserve the existing Cannibalize + Underwater Breathing behavior.
+# Death Knights are excluded from the SKIN/FACE change only; non-Undead Death
+# Knights may still receive these fallen racial rewards.
+ModHardcore.GiveFallenHCUndeadRacials = true
+ModHardcore.FallenHCUndeadRacialSpell1 = 20577
+ModHardcore.FallenHCUndeadRacialSpell2 = 5227
+
+# Native Undead/Forsaken use a separate enable and up to two bonus spell slots.
+# Set either spell slot to 0 or -1 for no spell.
+# Default spell 8359 = Left for Dead. A long cooldown override is recommended
+# if this spell is used on a live realm.
+ModHardcore.GiveNativeUndeadFallenRacials = true
+ModHardcore.FallenUndeadBonusSpell1 = 8359
+ModHardcore.FallenUndeadBonusSpell2 = 0
+
+# Optional title/achievement granted when a qualifying Hardcore resurrection is
+# configured to create the fallen/undead state (MakeUndeadOnRez or GM variant).
+# Default title 119 = The Forsaken.
+ModHardcore.TitleOnDeath = true
+ModHardcore.TitleOnDeathId = 119
+ModHardcore.AchievementOnDeath = true
+ModHardcore.AchievementOnDeathId = 3456
+
+###############################################################################
+# EQUIPMENT LOSS / RESURRECTION ITEMS
+###############################################################################
+
+# Destroy all equipped items and money on every QUALIFYING keyed Hardcore death.
+# Because a successful allowed resurrection removes the Hardcore Key, later
+# normal deaths do not trigger this penalty.
 ModHardcore.DestroyEquipmentOnDeath = true
-ModHardcore.DisableChatWhenDead = false
 
+# Optional replacement items after a successful allowed resurrection.
+# This entire subsection only applies when DestroyEquipmentOnDeath = true.
+# The player must also meet MinLvlGetRezItem.
+#
+# RespawnRandomEquip: one RANDOM item from the comma-separated list is created
+# and equipped in its normal valid equipment slot. If it cannot be equipped,
+# the module attempts to place it in inventory instead.
+#
+# RespawnItemInv: EVERY comma-separated item is added to inventory once.
+ModHardcore.RespawnWithRezItems = true
+ModHardcore.MinLvlGetRezItem = 1
+ModHardcore.RespawnRandomEquip = "44694, 44693"
+ModHardcore.RespawnItemInv = "9332, 44646"
+
+# Reset the Hearthstone cooldown on every QUALIFYING keyed Hardcore death.
+# This uses the same death classification as all other Hardcore penalties:
+# excluded battleground, arena, or world-PvP deaths do NOT reset it.
+# The cooldown clear is also re-sent after an allowed resurrection so the
+# client shows the Hearthstone ready after a memorial transfer.
+ModHardcore.ResetHearthstoneOnDeath = true
+
+###############################################################################
+# WHICH PVP DEATHS COUNT?
+###############################################################################
+
+# PvE and environmental deaths always count.
+# These settings independently control PvP categories.
+ModHardcore.CountBattlegroundDeaths = false
+ModHardcore.CountArenaDeaths = false
+ModHardcore.CountPvPDeaths = true
+
+# Mak'gora turns a Hardcore character's duel loss/flee into a real death.
+# Interrupted duels do not trigger a Mak'gora death.
+ModHardcore.EnableMakgora = false
+
+###############################################################################
+# DEATH ANNOUNCEMENTS
+###############################################################################
+
+# Broadcast qualifying keyed Hardcore deaths as world/system messages.
+ModHardcore.AnnounceDeaths = true
+
+# Default minimum victim level each player sees in Hardcore death broadcasts.
+# Default 10 avoids spam from very low-level deaths.
+# Players can override this for their current login session with:
+#   .hc death <level>
+#   .hc death off
+#   .hc death default
+ModHardcore.DefaultPlayerDeathMessageLevel = 1
+
+###############################################################################
+# HARDCORE DEATH MEMORIAL TELEPORT
+###############################################################################
+
+# Optional memorial destination.
+#
+# If BOTH AllowPlayerRez and AllowSpiritRez are false:
+#   A qualifying keyed Hardcore death is teleported here while dead/ghost and
+#   remains there unless an exceptional allowed GM resurrection occurs.
+#
+# If player OR Spirit resurrection is allowed:
+#   Do NOT teleport on death. After the allowed resurrection succeeds, apply
+#   fallen appearance/racials first, teleport here ONCE, then destroy the Key.
+#
+# This avoids the old death + resurrection double-teleport behavior.
+ModHardcore.TeleportOnHardcoreDeath = true
+#acherus
+#ModHardcore.DeathTeleportMap = 609
+#ModHardcore.DeathTeleportX = 2484
+#ModHardcore.DeathTeleportY = -5542
+#ModHardcore.DeathTeleportZ = 424
+#ModHardcore.DeathTeleportO = 0.0
+
+### Deaths Breach
+ModHardcore.DeathTeleportMap = 609
+ModHardcore.DeathTeleportX = 2366
+ModHardcore.DeathTeleportY = -5777
+ModHardcore.DeathTeleportZ = 152
+ModHardcore.DeathTeleportO = 0.0
+
+###############################################################################
+# DEBUG DK APPEARANCE COMMANDS
+###############################################################################
+
+# GM/development tools. Keep disabled in production.
+#   .hcdk info
+#   .hcdk apply <skin> <face> [hairColor] [hairStyle] [facialHair]
+#   .hcdk refresh
+#   .hcdk sync
+#   .hcdk restore
+#   .hcdk save
+#   .hcdk auras
+#   .hcdk show <race|all>
+#   .hcdk showhair <race|all>
+#
+# The optional hair fields, refresh, sync, and showhair commands are diagnostic tools.
+# .hcdk sync uses the GM as observer and the selected player as subject, prints
+# all DK-sync gates, and sends the exact observer-only skin pulse used by the
+# automatic synchronization system when those gates pass.
+# Example Blood Elf male test from CharSections.dbc:
+#   .hcdk apply 16 2 10
+#   .hcdk save
+#   .hcdk refresh
+
+ModHardcore.DebugHCDK = true
+
+###############################################################################
+# LEVEL RANGE / COMPLETION
+###############################################################################
+
+# Hardcore death/resurrection rules apply THROUGH EndLevel.
+# Example: EndLevel = 59 means crossing 59 -> 60 completes the challenge.
+# Example: EndLevel = 60 means level 60 is still Hardcore and crossing 60 -> 61
+# completes the challenge.
+#
+# Milestone rewards are evaluated BEFORE completion. A keyed character leveling
+# 59 -> 60 can therefore receive level-60 achievements, titles, items and spells
+# when EndLevel is either 59 or 60.
+#
+# Setting EndLevel to the realm maximum (for example 80) creates a challenge
+# that cannot normally complete on a level-80 realm.
 ModHardcore.StartLevel = 1
 ModHardcore.EndLevel = 59
 
 ModHardcore.AnnounceLevelUp = true
 
-ModHardcore.AchievementReward = "60 2186, 70 2187"
-ModHardcore.TitleReward = "60 141, 70 142"
+###############################################################################
+# DEAD PLAYER CHAT
+###############################################################################
+
+# Disable chat for dead keyed characters whose current death counts as Hardcore.
+ModHardcore.DisableChatWhenDead = false
+
+###############################################################################
+# ACHIEVEMENTS / TITLES / CHALLENGE REWARDS
+###############################################################################
+
+# Comma-separated pairs: <level> <achievement/title id>
+# Rewards require the Hardcore Key and must be reached while crossing from a
+# level inside the configured Hardcore range.
+ModHardcore.AchievementReward = "5 2090, 60 2186, 70 2187"
+ModHardcore.TitleReward = "5 45, 60 141, 70 142"
+
+# Optional single challenge reward milestone.
+# Item and spell rewards can be enabled independently or together.
+ModHardcore.ChallengeRewardLevel = 60
+ModHardcore.ChallengeRewardItemEnable = false
+ModHardcore.ChallengeRewardItemId = 0
+ModHardcore.ChallengeRewardSpellEnable = false
+ModHardcore.ChallengeRewardSpellId = 0
+
+###############################################################################
+# PLAYER COMMANDS
+###############################################################################
+
+# .hc
+#     Show the current Hardcore rules and your Key/death-message status.
+#
+# .hc death off
+#     Disable Hardcore death broadcasts for your current login session.
+#
+# .hc death default
+#     Return to DefaultPlayerDeathMessageLevel.
+#
+# .hc death 50
+#     Example: only show Hardcore death broadcasts for level 50+ victims.
+
+###############################################################################
+# EXAMPLE GAME MODES
+###############################################################################
+
+# PERMADEATH HARDCORE
+#   ModHardcore.AllowPlayerRez = false
+#   ModHardcore.AllowSpiritRez = false
+#   ModHardcore.AllowGMRez = false
+#   ModHardcore.DestroyEquipmentOnDeath = false
+#   ModHardcore.TeleportOnHardcoreDeath = true
+#
+# FALLEN / SECOND-LIFE HARDCORE
+# A qualifying death destroys gear. The player can accept an allowed
+# resurrection, receives optional fallen appearance/racials, is teleported to
+# the memorial once if enabled, loses the Hardcore Key, and continues normally.
+#   ModHardcore.AllowPlayerRez = true
+#   ModHardcore.AllowSpiritRez = true
+#   ModHardcore.AllowGMRez = true
+#   ModHardcore.DestroyEquipmentOnDeath = true
+#   ModHardcore.MakeUndeadOnRez = true
+#   ModHardcore.GiveFallenHCUndeadRacials = true
+#   ModHardcore.TeleportOnHardcoreDeath = false
+#
+# SPIRIT-HEALER - NO PLAYER RES SECOND LIFE
+#   ModHardcore.AllowPlayerRez = false
+#   ModHardcore.AllowSpiritRez = true
+#   ModHardcore.AllowGMRez = true
+#   ModHardcore.MakeUndeadOnRez = true
+#   ModHardcore.GiveFallenHCUndeadRacials = true
+#   ModHardcore.DestroyEquipmentOnDeath = true
+#
+# KEEP ARMOR SECOND LIFE - dont make undead - dont apply racials
+#   ModHardcore.AllowPlayerRez = false
+#   ModHardcore.AllowSpiritRez = true
+#   ModHardcore.AllowGMRez = true
+#   ModHardcore.MakeUndeadOnRez = true
+#   ModHardcore.DestroyEquipmentOnDeath = false
+#   ModHardcore.MakeUndeadOnRez = false
+#   ModHardcore.GiveFallenHCUndeadRacials = false
+#
+# MAKGORA HARDCORE
+#   ModHardcore.EnableMakgora = true
+#   ModHardcore.CountPvPDeaths = true
+
+###############################################################################
