@@ -36,8 +36,10 @@ ModHardcore.TokenItemId = 11100
 # 
 ModHardcore.PvPDeathFlagItemId = 759
 
-# Playerbots are excluded by default.
+#### KEEP THIS AS FALSE PLEASE
+# Playerbots are excluded by default. dont use this - undevelopment
 ModHardcore.AllowHardcorePlayerBots = false
+#### KEEP THIS AS FALSE PLEASE 
 
 ###############################################################################
 # RESURRECTION / HARDCORE FORFEIT
