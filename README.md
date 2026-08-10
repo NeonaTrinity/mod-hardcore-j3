@@ -1,8 +1,17 @@
 # Mod J3's Hardcore
 
 AzerothCore 3.3.5a J3's Hardcore module with an opt-out Hardcore mechanic. Fallen Hardcore players may return to non-Hardcore as "Fallen Undead" versions of their race. Players retain their level, class, skills, and progression.
-
 This module requires no AzerothCore core patches and no client patches. Add the project to your `modules` folder, rebuild, configure the module, and run the included SQL.
+
+**known issues:**
+occasionally a fallen players first resurrection after dying in HC will cause the player to appear with regular skin texture faces and fallen bodies. 
+logging out and back in fixes it. The visual bug only appears for the client, other players see the fallen player as skinned correctly.
+
+<img src="images/fallen_orcs.jpg" width = "600"> 
+Fallen hair styles can be changed at the barber like normal, but you will lose access to your fallen hair color if you change away from it.
+(it can be added back with gm commands.)
+<img src="images/fallen_orcs_barber.jpg" width = "600"> 
+
 
 The included SQL repurposes two unused NPC items as the default Hardcore Token and PvP Death Flag Token. The Hardcore Token determines whether a character is participating in Hardcore mode. The PvP Death Flag prevents Hardcore resurrection penalties for ignored PvP deaths when enabled.
 
@@ -11,17 +20,6 @@ If enabled, Fallen Hardcore players can have their equipped items destroyed on d
 If a character has the configured Hardcore Token and is inside the configured Hardcore level range, Hardcore rules apply. Destroying the token manually opts the character out immediately.
 
 Ignored PvP, battleground, and arena deaths can use `ModHardcore.PvPDeathFlagItemId` as a temporary persistent keyring marker so the exclusion survives logout and server restart.
-
-known issues:
-occasionally a fallen players first resurrection after dying in HC will cause the player to appear with regular skin texture faces and fallen bodies. 
-logging out and back in fixes it. The visual bug only appears for the client, other players see the fallen player as skinned correctly.
-
-
-<img src="images/fallen_orcs.jpg" width = "600"> 
-Fallen hair styles can be changed at the barber like normal, but you will lose access to your fallen hair color if you change away from it.
-(it can be added back with gm commands.)
-<img src="images/fallen_orcs_barber.jpg" width = "600"> 
-
 
 
 ## Core death / resurrection flow
