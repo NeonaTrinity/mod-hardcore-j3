@@ -8,6 +8,7 @@ This module requires no AzerothCore core patches and no client patches. Add the 
 module created by: J3 https://github.com/NeonaTrinity/mod-hardcore-j3
 
 **known issues:**
+
 ---occasionally a fallen players first resurrection after dying in HC will cause the player to appear with regular skin texture faces and fallen bodies. 
 logging out and back in fixes it. The visual bug only appears for the client, other players see the fallen player as skinned correctly.
 
