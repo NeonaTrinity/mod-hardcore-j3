@@ -10,7 +10,9 @@ module created by: J3 https://github.com/NeonaTrinity/mod-hardcore-j3
 **known issues:**
 ---occasionally a fallen players first resurrection after dying in HC will cause the player to appear with regular skin texture faces and fallen bodies. 
 logging out and back in fixes it. The visual bug only appears for the client, other players see the fallen player as skinned correctly.
+
 ---skins occasionally flicker once on first login as they apply the fallen skins.
+
 ---most models don't have an animation for cannibalism so the characters just kneel.
 
 <img src="images/fallen_orcs.jpg" width = "600"> 
