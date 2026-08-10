@@ -13,7 +13,7 @@ If a character has the configured Hardcore Token and is inside the configured Ha
 Ignored PvP, battleground, and arena deaths can use `ModHardcore.PvPDeathFlagItemId` as a temporary persistent keyring marker so the exclusion survives logout and server restart.
 
 
-<img src="images/fallen_orcs.jpg" width = "600">
+<img src="images/fallen_orcs.jpg" width = "600"> <img src="images/fallen_orcs_barber.jpg" width = "600"> 
 
 
 
