@@ -3,6 +3,8 @@
 AzerothCore 3.3.5a J3's Hardcore module with an opt-out Hardcore mechanic. Fallen Hardcore players may return to non-Hardcore as "Fallen Undead" versions of their race. Players retain their level, class, skills, and progression.
 This module requires no AzerothCore core patches and no client patches. Add the project to your `modules` folder, rebuild, configure the module, and run the included SQL.
 
+**** Clear your WDB cache folder on each client that is playing ("wotlk\Cache\WDB") after applying sql to receive updated item tooltips**
+
 module created by: J3 https://github.com/NeonaTrinity/mod-hardcore-j3
 
 **known issues:**
