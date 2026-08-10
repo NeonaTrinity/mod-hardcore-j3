@@ -13,7 +13,10 @@ If a character has the configured Hardcore Token and is inside the configured Ha
 Ignored PvP, battleground, and arena deaths can use `ModHardcore.PvPDeathFlagItemId` as a temporary persistent keyring marker so the exclusion survives logout and server restart.
 
 
-<img src="images/fallen_orcs.jpg" width = "600"> <img src="images/fallen_orcs_barber.jpg" width = "600"> 
+<img src="images/fallen_orcs.jpg" width = "600"> 
+Fallen hair styles can be changed at the barber like normal, but you will lose access to your fallen hair color if you change away from it.
+(it can be added back with gm commands.)
+<img src="images/fallen_orcs_barber.jpg" width = "600"> 
 
 
 
