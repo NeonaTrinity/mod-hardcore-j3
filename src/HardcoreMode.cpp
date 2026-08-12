@@ -52,6 +52,7 @@ namespace HardcoreConfig
     uint32 TokenItemId() { return sConfigMgr->GetOption<uint32>("ModHardcore.TokenItemId", DEFAULT_TOKEN_ID); }
     uint32 PvPDeathFlagItemId() { return sConfigMgr->GetOption<uint32>("ModHardcore.PvPDeathFlagItemId", DEFAULT_PVP_DEATH_FLAG_ITEM_ID); }
     bool AllowBots() { return sConfigMgr->GetOption<bool>("ModHardcore.AllowHardcorePlayerBots", false); }
+    bool AllowPlayerBotFallenAppearance() { return sConfigMgr->GetOption<bool>("ModHardcore.AllowPlayerBotFallenAppearance", true); }
 
     bool AllowPlayerRez() { return sConfigMgr->GetOption<bool>("ModHardcore.AllowPlayerRez", false); }
     bool AllowSpiritRez() { return sConfigMgr->GetOption<bool>("ModHardcore.AllowSpiritRez", false); }
@@ -591,7 +592,7 @@ namespace HardcoreDkSkinSync
     // single delayed reverse pass when they enter after observers are present.
     // A UnitScript create-values hook additionally catches the exact moment a
     // fallen player is constructed for an observer who encounters them later.
-    // Playerbots never schedule any side of this work.
+    // Playerbots never act as observers; DK-looking bot subjects are optional.
     static constexpr uint32 SUBJECT_SYNC_DELAY_MS = 500;
 
     struct ObserverSyncTimers
@@ -621,6 +622,14 @@ namespace HardcoreDkSkinSync
     {
         if (!player || !player->IsInWorld() || !player->GetSession())
             return false;
+
+        // Hardcore participation and Fallen-looking playerbot synchronization are
+        // intentionally separate. Playerbots never act as observers, but a bot
+        // that already has a valid DK skin/face may be synchronized for real
+        // observers when this visual-only option is enabled.
+        if (player->GetSession()->IsBot() && !HardcoreConfig::AllowPlayerBotFallenAppearance())
+            return false;
+
         if (player->getRace() == RACE_UNDEAD_PLAYER || player->getClass() == CLASS_DEATH_KNIGHT)
             return false;
 

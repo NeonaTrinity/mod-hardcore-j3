@@ -38,8 +38,24 @@ ModHardcore.PvPDeathFlagItemId = 759
 
 #### KEEP THIS AS FALSE PLEASE
 # Playerbots are excluded by default. dont use this - undevelopment
+# Allow playerbots to participate in Hardcore gameplay.
+# false = playerbots do not receive the Hardcore Key and are excluded from
+#         normal Hardcore death/forfeit processing.
 ModHardcore.AllowHardcorePlayerBots = false
 #### KEEP THIS AS FALSE PLEASE 
+
+# Visual-only playerbot Fallen appearance support.
+# true  = playerbots that already have a valid Death Knight skin/face
+#         combination may be recognized by the Fallen appearance synchronizer
+#         so real players see that appearance consistently.
+# false = the Fallen appearance synchronizer completely ignores playerbot
+#         subjects.
+#
+# This setting does NOT give playerbots DK skins, Hardcore tokens, Fallen
+# racials, death penalties, resurrection rewards, titles, achievements, or
+# memorial teleports. It only controls visual synchronization of DK-looking
+# playerbots that already have those appearance values.
+ModHardcore.AllowPlayerBotFallenAppearance = true
 
 ###############################################################################
 # RESURRECTION / HARDCORE FORFEIT

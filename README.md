@@ -128,11 +128,17 @@ ModHardcore.LogonSyncTimeRetry = 1500
 # Event-driven object-create system
 ModHardcore.EnableDkSkinObjectCreateSync = true
 ModHardcore.ObjectCreateSyncTime = 100
+
+
+# Visual-only support for playerbots that already have valid DK appearance bytes
+ModHardcore.AllowPlayerBotFallenAppearance = true
 ```
+
+`ModHardcore.AllowPlayerBotFallenAppearance` is independent from `ModHardcore.AllowHardcorePlayerBots`. When enabled, a playerbot that already has a valid DK skin/face combination can be recognized as Fallen-looking and synchronized for real observers. The module does not give the bot that appearance or grant Hardcore/Fallen gameplay effects; this option is visual only. Set it to `false` to make the Fallen appearance synchronizer ignore all playerbot subjects.
 
 This split allows direct A/B testing: set `EnableDkSkinSync = false` while leaving `EnableDkSkinObjectCreateSync = true` to test whether the newer visibility-time hook is sufficient by itself.
 
-The synchronization is event-driven, not a continuous visibility scanner. The object-create path queues only the exact observer/subject pair whose player object AzerothCore is already constructing; there is no periodic proximity scan. Playerbots never act as observers and never schedule fallen-player sync work.
+The synchronization is event-driven, not a continuous visibility scanner. The object-create path queues only the exact observer/subject pair whose player object AzerothCore is already constructing; there is no periodic proximity scan. Playerbots never act as observers. When `AllowPlayerBotFallenAppearance = true`, a DK-looking playerbot may be the subject of a visual repair sent to a real observer.
 
 Because the feature identifies fallen appearances from the actual validated appearance bytes rather than the Hardcore Key, it continues to work after successful resurrection destroys the Key and can also support characters given fallen textures by another system later.
 
