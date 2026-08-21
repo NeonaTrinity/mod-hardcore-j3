@@ -46,7 +46,7 @@ using namespace Acore::ChatCommands;
 namespace HardcoreConfig
 {
     static constexpr uint32 DEFAULT_TOKEN_ID = 11100;
-    static constexpr uint32 DEFAULT_PVP_DEATH_FLAG_ITEM_ID = 34908;
+    static constexpr uint32 DEFAULT_PVP_DEATH_FLAG_ITEM_ID = 759;
 
     bool Enabled() { return sConfigMgr->GetOption<bool>("ModHardcore.Enable", false); }
     uint32 TokenItemId() { return sConfigMgr->GetOption<uint32>("ModHardcore.TokenItemId", DEFAULT_TOKEN_ID); }
